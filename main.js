@@ -4,6 +4,26 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  // ---- Mobile viewport height fix (100vh bug on iOS/Android) ----
+  const setVH = () => {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  };
+  setVH();
+  window.addEventListener('resize', setVH);
+
+  // ---- Prevent horizontal overflow on mobile ----
+  const preventOverflow = () => {
+    document.querySelectorAll('img, svg, video, iframe').forEach(el => {
+      if (el.offsetWidth > window.innerWidth) {
+        el.style.maxWidth = '100%';
+        el.style.height = 'auto';
+      }
+    });
+  };
+  preventOverflow();
+  window.addEventListener('resize', preventOverflow);
+
   // ---- Navbar scroll effect ----
   const navbar = document.getElementById('navbar');
   const onScroll = () => {
